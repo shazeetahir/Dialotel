@@ -1,5 +1,3 @@
-# Dialotel
-
 J'ai crée deux profiles, un pour un client et l'autre pour un prestataire.
 
 Une systeme d'authentification est mise en place.

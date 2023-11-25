@@ -1,0 +1,113 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Listings{% endblock %}
+
+{% block body %}
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listings</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1em;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            border-bottom: 1px solid #ccc;
+            padding: 10px;
+            margin: 0;
+        }
+
+        li:last-child {
+            border-bottom: none;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 style="color: white;">Listings</h1>
+    </header>
+
+    <main>
+        <ul>
+            {% for listing in listings %}
+                <li>
+                    <strong>{{ listing.name }}</strong><br>
+                    <span>{{ listing.description }}</span><br>
+                    <span>Price: {{ listing.price }} €</span><br>
+                    <span>Created by: <a href="mailto:{{ listing.owner.email }}">{{ listing.owner.email }}</a></span>
+
+
+                    <!-- Display offers for the current listing -->
+                    {% if listing.offers is not empty %}
+                        <h4>Offres :</h4>
+                        <ul>
+                            {% for offer in listing.offers %}
+                                <li> <strong> {{ offer.comment }} </strong> - {{ offer.user.email }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+               
+                    <!-- Formulaire de réponse si c'est pas notre propre annonce -->
+                    {% if app.user and app.user.email != listing.owner.email %}
+                        <form method="post" action="{{ path('handle_response', {'listingId': listing.id}) }}" style="margin-top:10px;">
+                            <label for="response_content">Votre Reponse:</label><br>
+                            <textarea name="response_content" id="response_content" rows="2"></textarea><br>
+                            <button class="btn btn-success" type="submit">Valider</button>
+                        </form>
+                    {% else %}
+                        <br>
+                        <button class="btn btn-success" type="submit" disabled>Mon annonce</button>
+                    {% endif %}
+
+                    
+                </li>
+            {% endfor %}
+        </ul>
+    </main>
+
+</body>
+</html>
+
+{% endblock %}
+

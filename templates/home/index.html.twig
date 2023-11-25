@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dialotel{% endblock %}
+
+{% block body %}
+<style>
+    
+</style>
+
+<div class="example-wrapper">
+    <h1 style="text-align: center;">DIALOTLE</h1>
+
+    <div style="margin-left: 10%;margin-right: 10%; text-align:center; margin-top:100px;">
+        <a href="{{path('app_listing')}}" class="btn btn-primary" role="button">Annonces en ligne</a>
+
+
+        {% if app.user %}
+            <a href="{{path('create_listing')}}" class="btn btn-success" role="button">Créer un annonce</a>
+            <a href="{{path('app_logout')}}" class="btn btn-danger" role="button">Se déconnecter</a>
+        {% else %}
+            <a href="{{path('app_login')}}" class="btn btn-success" role="button">Se connecter</a>
+        {% endif %}
+
+    </div>
+
+    
+</div>
+
+
+
+
+{% endblock %}
